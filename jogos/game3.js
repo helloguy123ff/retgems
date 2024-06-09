@@ -20,6 +20,31 @@ let score = 0;
 const gravity = 1;
 const groundY = canvas.height - 80;
 
+// Array para armazenar os prédios
+let buildings = [];
+
+// Função para criar os prédios
+function createBuildings() {
+    for (let i = 0; i < 5; i++) {
+        let building = {
+            x: i * 200,
+            y: groundY - Math.random() * 150 - 50,
+            width: 100,
+            height: groundY - (groundY - 150),
+            color: `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`
+        };
+        buildings.push(building);
+    }
+}
+
+// Função para desenhar os prédios
+function drawBuildings() {
+    for (let building of buildings) {
+        ctx.fillStyle = building.color;
+        ctx.fillRect(building.x, building.y, building.width, building.height);
+    }
+}
+
 // Função para desenhar o jogador (skate)
 function drawPlayer() {
     ctx.fillStyle = '#ff0000'; // Cor vermelha
@@ -58,6 +83,7 @@ function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
     // Desenhar elementos do jogo
+    drawBuildings();
     updatePlayer();
 
     // Atualizar pontuação
@@ -71,6 +97,9 @@ function gameLoop() {
 
 // Iniciar o loop do jogo
 gameLoop();
+
+// Inicializar os prédios
+createBuildings();
 
 // Capturar eventos de teclado
 document.addEventListener('keydown', (event) => {
@@ -92,10 +121,13 @@ document.addEventListener('keyup', (event) => {
     }
 });
 
-// Função para verificar colisão entre o jogador e os obstáculos
-function checkCollision(player, obstacle) {
-    return player.x < obstacle.x + obstacle.width &&
-           player.x + player.width > obstacle.x &&
-           player.y < obstacle.y + obstacle.height &&
-           player.y + player.height > obstacle.y;
+// Função para verificar colisão entre o jogador e os prédios
+function checkCollision(player, building) {
+    return player.x < building.x + building.width &&
+           player.x + player.width > building.x &&
+           player.y < building.y + building.height &&
+           player.y + player.height > building.y;
 }
+
+
+
