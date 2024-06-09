@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo 2</title>
+    <title>Jogo 2 - Hotline Miami Style</title>
     <style>
         body {
             background-color: #000;
@@ -37,23 +37,12 @@
             speed: 5
         };
 
-        // Mecânica de movimento
-        function movePlayer(direction) {
-            switch (direction) {
-                case 'up':
-                    player.y -= player.speed;
-                    break;
-                case 'down':
-                    player.y += player.speed;
-                    break;
-                case 'left':
-                    player.x -= player.speed;
-                    break;
-                case 'right':
-                    player.x += player.speed;
-                    break;
-            }
-        }
+        // Inimigos
+        const enemies = [
+            { x: 200, y: 200, width: 20, height: 20 },
+            { x: 400, y: 300, width: 20, height: 20 },
+            { x: 600, y: 100, width: 20, height: 20 }
+        ];
 
         // Atualização do jogo
         function update() {
@@ -63,6 +52,26 @@
             // Desenhar jogador
             ctx.fillStyle = '#ff0000';
             ctx.fillRect(player.x, player.y, player.width, player.height);
+
+            // Desenhar inimigos
+            ctx.fillStyle = '#00ff00';
+            enemies.forEach(enemy => {
+                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+            });
+
+            // Detecção de colisão
+            enemies.forEach(enemy => {
+                if (
+                    player.x < enemy.x + enemy.width &&
+                    player.x + player.width > enemy.x &&
+                    player.y < enemy.y + enemy.height &&
+                    player.y + player.height > enemy.y
+                ) {
+                    // Colisão detectada - jogador morre
+                    alert('Você morreu!');
+                    document.location.reload();
+                }
+            });
         }
 
         // Loop do jogo
@@ -75,16 +84,16 @@
         document.addEventListener('keydown', function(event) {
             switch (event.key) {
                 case 'ArrowUp':
-                    movePlayer('up');
+                    player.y -= player.speed;
                     break;
                 case 'ArrowDown':
-                    movePlayer('down');
+                    player.y += player.speed;
                     break;
                 case 'ArrowLeft':
-                    movePlayer('left');
+                    player.x -= player.speed;
                     break;
                 case 'ArrowRight':
-                    movePlayer('right');
+                    player.x += player.speed;
                     break;
             }
         });
