@@ -1,19 +1,175 @@
-<!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skate Game</title>
-    <style>
-        canvas {
-            border: 1px solid black;
-            display: block;
-            margin: 0 auto;
-        }
-    </style>
+    <title>Flappy Bird</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <!-- Ou, se estiver usando um arquivo PNG: -->
+    <!-- <link rel="icon" href="favicon.png" type="image/png"> -->
 </head>
 <body>
-    <canvas id="gameCanvas" width="800" height="400"></canvas>
-    <script src="game3.js"></script>
+
+    <canvas id="gameCanvas" width="300" height="500"></canvas>
+    <script>
+
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+const birdImg = new Image();
+birdImg.src = 'bird.png'; // Substitua pelo caminho da imagem do pássaro
+
+const pipeTopImg = new Image();
+pipeTopImg.src = 'pipe-top.png'; // Substitua pelo caminho da imagem do cano superior
+
+const pipeBottomImg = new Image();
+pipeBottomImg.src = 'pipe-bottom.png'; // Substitua pelo caminho da imagem do cano inferior
+
+const backgroundImg = new Image();
+backgroundImg.src = 'background.png'; // Substitua pelo caminho da imagem de fundo
+
+const bird = {
+    x: 50,
+    y: 150,
+    width: 29, // Ajuste o tamanho do pássaro para ser menor
+    height: 25,
+    velocity: 0,
+    gravity: 0.6,
+    lift: -8
+};
+
+const pipes = [];
+const gap = 100;
+const pipeWidth = 52;
+let frameCount = 0;
+let score = 0;
+let isGameOver = false;
+
+document.addEventListener('keydown', () => {
+    if (!isGameOver) {
+        bird.velocity = bird.lift;
+    } else {
+        resetGame();
+    }
+});
+
+function getRandomHeight() {
+    return Math.floor(Math.random() * (canvas.height - gap - 40)) + 20;
+}
+
+function drawBird() {
+    ctx.drawImage(birdImg, bird.x, bird.y, bird.width, bird.height);
+}
+
+function drawPipe(pipeImg, x, y) {
+    ctx.drawImage(pipeImg, x, y, pipeWidth, pipeImg.height);
+}
+
+function moveBird() {
+    bird.velocity += bird.gravity;
+    bird.y += bird.velocity;
+
+    if (bird.y > canvas.height - bird.height) {
+        bird.y = canvas.height - bird.height;
+        bird.velocity = 0;
+    }
+
+    if (bird.y < 0) {
+        bird.y = 0;
+        bird.velocity = 0;
+    }
+}
+
+function movePipes() {
+    pipes.forEach(pipe => {
+        pipe.x -= 2;
+    });
+
+    if (frameCount % 90 === 0) {
+        const topHeight = getRandomHeight();
+        const bottomY = topHeight + gap;
+        pipes.push({
+            x: canvas.width,
+            topHeight: topHeight,
+            bottomY: bottomY
+        });
+    }
+
+    if (pipes.length && pipes[0].x < -pipeWidth) {
+        pipes.shift();
+        score++;
+    }
+}
+
+function checkCollision() {
+    for (let i = 0; i < pipes.length; i++) {
+        const pipe = pipes[i];
+        if (
+            bird.x < pipe.x + pipeWidth &&
+            bird.x + bird.width > pipe.x &&
+            (bird.y < pipe.topHeight || bird.y + bird.height > pipe.bottomY)
+        ) {
+            endGame();
+        }
+    }
+}
+
+function drawBackground() {
+    ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+}
+
+function drawScore() {
+    ctx.fillStyle = '#000';
+    ctx.font = '20px Arial';
+    ctx.fillText(`Score: ${score}`, 10, 20);
+}
+
+function endGame() {
+    isGameOver = true;
+    ctx.fillStyle = '#000';
+    ctx.font = '30px Arial';
+    ctx.fillText(`Game Over! Score: ${score}`, 50, canvas.height / 2);
+    setTimeout(() => {
+        resetGame();
+    }, 2000);
+}
+
+function resetGame() {
+    bird.y = 150;
+    bird.velocity = 0;
+    pipes.length = 0;
+    score = 0;
+    frameCount = 0;
+    isGameOver = false;
+    gameLoop();
+}
+
+function gameLoop() {
+    if (isGameOver) return;
+
+    frameCount++;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawBackground();
+    moveBird();
+    drawBird();
+
+    movePipes();
+    pipes.forEach(pipe => {
+        drawPipe(pipeTopImg, pipe.x, pipe.topHeight - pipeTopImg.height);
+        drawPipe(pipeBottomImg, pipe.x, pipe.bottomY);
+    });
+
+    drawScore();
+
+    requestAnimationFrame(gameLoop);
+}
+
+backgroundImg.onload = () => {
+    resetGame();
+};
+
+
+    </script>
 </body>
 </html>
