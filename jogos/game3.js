@@ -129,5 +129,3 @@ function checkCollision(player, building) {
            player.y + player.height > building.y;
 }
 
-
-
