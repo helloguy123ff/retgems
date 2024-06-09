@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo 1</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            border: 2px solid #ff0000;
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('gameCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Exemplo simples de animação de um quadrado
+            let x = 50;
+            let y = 50;
+            const size = 50;
+            const speed = 2;
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#ff0000';
+                ctx.fillRect(x, y, size, size);
+                x += speed;
+                if (x + size > canvas.width || x < 0) {
+                    x = 50;
+                }
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        });
+    </script>
+</head>
+<body>
+    <h2>Jogo 1</h2>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+</body>
+</html>
