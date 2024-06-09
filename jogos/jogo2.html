@@ -28,20 +28,27 @@
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
+        // Carregar sprites
+        const playerSprite = new Image();
+        playerSprite.src = 'player.png';
+
+        const enemySprite = new Image();
+        enemySprite.src = 'enemy.png';
+
         // Jogador
         const player = {
             x: 50,
             y: 50,
-            width: 20,
-            height: 20,
+            width: 32,
+            height: 32,
             speed: 5
         };
 
         // Inimigos
         const enemies = [
-            { x: 200, y: 200, width: 20, height: 20 },
-            { x: 400, y: 300, width: 20, height: 20 },
-            { x: 600, y: 100, width: 20, height: 20 }
+            { x: 200, y: 200, width: 32, height: 32 },
+            { x: 400, y: 300, width: 32, height: 32 },
+            { x: 600, y: 100, width: 32, height: 32 }
         ];
 
         // Atualização do jogo
@@ -50,13 +57,11 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Desenhar jogador
-            ctx.fillStyle = '#ff0000';
-            ctx.fillRect(player.x, player.y, player.width, player.height);
+            ctx.drawImage(playerSprite, player.x, player.y, player.width, player.height);
 
             // Desenhar inimigos
-            ctx.fillStyle = '#00ff00';
             enemies.forEach(enemy => {
-                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+                ctx.drawImage(enemySprite, enemy.x, enemy.y, enemy.width, enemy.height);
             });
 
             // Detecção de colisão
@@ -103,3 +108,4 @@
     </script>
 </body>
 </html>
+
