@@ -36,7 +36,7 @@
             height: 20,
             speed: 5
         };
-
+ 
         // Inimigos
         const enemies = [
             { x: 200, y: 200, width: 20, height: 20 },
@@ -80,23 +80,7 @@
             requestAnimationFrame(gameLoop);
         }
 
-        // Controles
-        document.addEventListener('keydown', function(event) {
-            switch (event.key) {
-                case 'ArrowUp':
-                    player.y -= player.speed;
-                    break;
-                case 'ArrowDown':
-                    player.y += player.speed;
-                    break;
-                case 'ArrowLeft':
-                    player.x -= player.speed;
-                    break;
-                case 'ArrowRight':
-                    player.x += player.speed;
-                    break;
-            }
-        });
+      
 
         // Iniciar o loop do jogo
         gameLoop();
