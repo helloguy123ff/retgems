@@ -3,88 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotline Milwaukee</title>
+    <title>Jogo 2 - Hotline Miami Style</title>
     <style>
         body {
             background-color: #000;
             color: #fff;
-            font-family: Arial, sans-serif;
+            text-align: center;
             margin: 0;
             padding: 0;
         }
 
-        #gameArea {
-            position: relative;
-            width: 800px;
-            height: 600px;
+        canvas {
+            display: block;
             margin: 20px auto;
-            background-image: url('background.jpg');
-            background-size: cover;
-            border: 2px solid #fff;
-        }
-
-        .player {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50px;
-            height: 50px;
-            background-color: #ff0000;
-            border-radius: 50%;
-        }
-
-        .object {
-            position: absolute;
-            background-color: #00ff00;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
+            border: 2px solid #ff0000;
         }
     </style>
 </head>
 <body>
-    <h1>Hotline Milwaukee</h1>
-    <div id="gameArea">
-        <div class="player" id="player"></div>
-        <div class="object" id="object1" style="top: 200px; left: 100px;"></div>
-        <div class="object" id="object2" style="top: 400px; left: 500px;"></div>
-    </div>
+    <h2>Jogo 2 - Hotline Miami Style</h2>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
 
     <script>
-        const player = document.getElementById('player');
-        const object1 = document.getElementById('object1');
-        const object2 = document.getElementById('object2');
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
 
-        player.addEventListener('click', function() {
-            alert('Você encontrou o jogador!');
-        });
+        // Jogador
+        const player = {
+            x: 50,
+            y: 50,
+            width: 20,
+            height: 20,
+            speed: 5
+        };
 
-        object1.addEventListener('click', function() {
-            alert('Você encontrou o objeto 1!');
-        });
+        // Inimigos
+        const enemies = [
+            { x: 200, y: 200, width: 20, height: 20 },
+            { x: 400, y: 300, width: 20, height: 20 },
+            { x: 600, y: 100, width: 20, height: 20 }
+        ];
 
-        object2.addEventListener('click', function() {
-            alert('Você encontrou o objeto 2!');
-        });
+        // Atualização do jogo
+        function update() {
+            // Limpar o canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            // Desenhar jogador
+            ctx.fillStyle = '#ff0000';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+
+            // Desenhar inimigos
+            ctx.fillStyle = '#00ff00';
+            enemies.forEach(enemy => {
+                ctx.fillRect(enemy.x, enemy.y, enemy.width, enemy.height);
+            });
+
+            // Detecção de colisão
+            enemies.forEach(enemy => {
+                if (
+                    player.x < enemy.x + enemy.width &&
+                    player.x + player.width > enemy.x &&
+                    player.y < enemy.y + enemy.height &&
+                    player.y + player.height > enemy.y
+                ) {
+                    // Colisão detectada - jogador morre
+                    alert('Você morreu!');
+                    document.location.reload();
+                }
+            });
+        }
+
+        // Loop do jogo
+        function gameLoop() {
+            update();
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Controles
         document.addEventListener('keydown', function(event) {
-            const speed = 10;
             switch (event.key) {
                 case 'ArrowUp':
-                    player.style.top = Math.max(0, player.offsetTop - speed) + 'px';
+                    player.y -= player.speed;
                     break;
                 case 'ArrowDown':
-                    player.style.top = Math.min(550, player.offsetTop + speed) + 'px';
+                    player.y += player.speed;
                     break;
                 case 'ArrowLeft':
-                    player.style.left = Math.max(0, player.offsetLeft - speed) + 'px';
+                    player.x -= player.speed;
                     break;
                 case 'ArrowRight':
-                    player.style.left = Math.min(750, player.offsetLeft + speed) + 'px';
+                    player.x += player.speed;
                     break;
             }
         });
+
+        // Iniciar o loop do jogo
+        gameLoop();
     </script>
 </body>
 </html>
