@@ -3,116 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Famicom Minigame with Obstacles</title>
+    <title>Skate Game</title>
     <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        #gameArea {
-            position: relative;
-            width: 800px;
-            height: 400px;
-            margin: 20px auto;
-            background-color: #70c5ce;
-            border: 2px solid #fff;
-        }
-
-        #player {
-            position: absolute;
-            bottom: 0;
-            left: 50px;
-            width: 50px;
-            height: 50px;
-            background-color: #ff0;
-        }
-
-        .coin {
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #ffd700;
-            border-radius: 50%;
-        }
-
-        .obstacle {
-            position: absolute;
-            width: 30px;
-            height: 30px;
-            background-color: #f00;
+        canvas {
+            border: 1px solid black;
+            display: block;
+            margin: 0 auto;
         }
     </style>
 </head>
 <body>
-    <h1>Famicom Minigame with Obstacles</h1>
-    <div id="gameArea">
-        <div id="player"></div>
-        <div class="coin" id="coin1" style="top: 300px; left: 100px;"></div>
-        <div class="coin" id="coin2" style="top: 200px; left: 300px;"></div>
-        <div class="coin" id="coin3" style="top: 100px; left: 500px;"></div>
-        <div class="obstacle" style="top: 250px; left: 200px;"></div>
-        <div class="obstacle" style="top: 150px; left: 400px;"></div>
-        <div class="obstacle" style="top: 50px; left: 600px;"></div>
-    </div>
-
-    <script>
-        const player = document.getElementById('player');
-        const coins = document.querySelectorAll('.coin');
-        const obstacles = document.querySelectorAll('.obstacle');
-
-        let playerSpeed = 5;
-
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'ArrowRight') { // Right arrow for moving right
-                player.style.left = (parseInt(player.style.left) + playerSpeed) + 'px';
-                checkCollision();
-            } else if (event.key === 'ArrowLeft') { // Left arrow for moving left
-                player.style.left = (parseInt(player.style.left) - playerSpeed) + 'px';
-                checkCollision();
-            }
-        });
-
-        function checkCollision() {
-            // Check collision with coins
-            coins.forEach(coin => {
-                if (
-                    parseInt(player.style.left) < parseInt(coin.style.left) + 20 &&
-                    parseInt(player.style.left) + 50 > parseInt(coin.style.left) &&
-                    parseInt(player.style.bottom) < parseInt(coin.style.top) + 20 &&
-                    parseInt(player.style.bottom) + 50 > parseInt(coin.style.top)
-                ) {
-                    coin.style.display = 'none';
-                    // You can add more logic here for scoring, etc.
-                }
-            });
-
-            // Check collision with obstacles
-            obstacles.forEach(obstacle => {
-                if (
-                    parseInt(player.style.left) < parseInt(obstacle.style.left) + 30 &&
-                    parseInt(player.style.left) + 50 > parseInt(obstacle.style.left) &&
-                    parseInt(player.style.bottom) < parseInt(obstacle.style.top) + 30 &&
-                    parseInt(player.style.bottom) + 50 > parseInt(obstacle.style.top)
-                ) {
-                    // Collision detected with obstacle
-                    alert('Game Over! You collided with an obstacle.');
-                    resetGame();
-                }
-            });
-        }
-
-        function resetGame() {
-            // Reset player position
-            player.style.left = '50px';
-            // Reset coin visibility
-            coins.forEach(coin => {
-                coin.style.display = 'block';
-            });
-        }
-    </script>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
+    <script src="game3.js"></script>
 </body>
 </html>
