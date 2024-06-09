@@ -152,7 +152,21 @@ document.addEventListener('keydown', event => {
 
 // Iniciar o jogo
 gameLoop();
-
+/ Event listener para capturar as teclas de seta
+document.addEventListener('keydown', event => {
+    if (event.key === 'ArrowUp') {
+        player.y -= player.speed;
+    }
+    if (event.key === 'ArrowDown') {
+        player.y += player.speed;
+    }
+    if (event.key === 'ArrowLeft') {
+        player.x -= player.speed;
+    }
+    if (event.key === 'ArrowRight') {
+        player.x += player.speed;
+    }
+});
     </script>
 </body>
 </html>
