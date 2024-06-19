@@ -3,118 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Famicom Minigames</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-
-        body {
-            font-family: 'Press Start 2P', cursive;
-            background-color: #282828;
-            color: #fff;
-            text-align: center;
-            margin: 0;
-            padding: 0;
-        }
-
-        header {
-            background-color: #ff0000;
-            padding: 20px;
-        }
-
-        header h1 {
-            margin: 0;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 10px;
-        }
-
-        nav a:hover {
-            text-decoration: underline;
-        }
-
-        main {
-            padding: 20px;
-        }
-
-        h2 {
-            color: #ff0000;
-        }
-
-        .game-list a {
-            display: block;
-            background-color: #000;
-            color: #fff;
-            text-decoration: none;
-            margin: 10px auto;
-            padding: 20px;
-            width: 200px;
-            border: 2px solid #ff0000;
-            border-radius: 5px;
-        }
-
-        .game-list a:hover {
-            background-color: #ff0000;
-            color: #000;
-        }
-
-        footer {
-            background-color: #ff0000;
-            color: #fff;
-            padding: 10px;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-
-        #game-container {
-            width: 80%;
-            margin: 20px auto;
-            background-color: #000;
-            padding: 10px;
-            border: 2px solid #ff0000;
-            border-radius: 5px;
-        }
-
-        #game-frame {
-            width: 100%;
-            height: 500px;
-            border: none;
-        }
-    </style>
+    <title>Echoes of the Forgotten</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Estilo CSS -->
 </head>
 <body>
-    <header>
-        <h1>Famicom Minigames</h1>
+    <div class="container">
+        <header>
+            <h1>Echoes of the Forgotten</h1>
+        </header>
         <nav>
-            <a href="index.html">Home</a>
-            <a href="about.html">About Us</a>
+            <ul>
+                <li><a href="#urban-legends">Lendas Urbanas</a></li>
+                <li><a href="#haunted-stories">Histórias Assombradas</a></li>
+                <li><a href="#old-photographs">Fotografias Antigas</a></li>
+                <!-- Adicione mais seções conforme necessário -->
+            </ul>
         </nav>
-    </header>
-    <main>
-        <h2>Selecione um Jogo</h2>
-        <div class="game-list">
-            <a href="game.html?jogo=jogo1">Jogo 1</a>
-            <a href="game.html?jogo=jogo2">Jogo 2</a>
-            <a href="game.html?jogo=jogo3">Jogo 3</a>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 2024 HDgames. All rights reserved.</p>
-    </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const gameLinks = document.querySelectorAll('.game-list a');
-            gameLinks.forEach(link => {
-                link.addEventListener('click', function(event) {
-                    event.preventDefault();
-                    const jogo = this.getAttribute('href').split('=')[1];
-                    window.location.href = `game.html?jogo=${jogo}`;
-                });
-            });
-        });
-    </script>
+        <main>
+            <section id="urban-legends">
+                <h2>Lendas Urbanas</h2>
+                <p>Texto sobre lendas urbanas...</p>
+            </section>
+            <section id="haunted-stories">
+                <h2>Histórias Assombradas</h2>
+                <p>Texto sobre histórias assombradas...</p>
+            </section>
+            <section id="old-photographs">
+                <h2>Fotografias Antigas</h2>
+                <p>Texto sobre fotografias antigas...</p>
+            </section>
+            <!-- Adicione mais seções conforme necessário -->
+        </main>
+        <footer>
+            <p>Deixe o seu <a href="#guestbook">comentário</a> no nosso livro de visitas.</p>
+        </footer>
+    </div>
 </body>
 </html>
+
